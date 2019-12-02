@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 27 15:54:16 2019
+
+@author: 2ecee-16
+"""
+
+import pandas as pd
+
+math = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'],
+        'Math' : [80, 95, 79]}
+w = pd.DataFrame(math, columns=['Student', 'Math'])
+
+electronics = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'],
+        'Electronics' : [85, 81, 83]}
+x = pd.DataFrame(electronics, columns=['Student', 'Electronics'])
+
+geas = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'],
+        'GEAS' : [90, 79, 93]}
+y = pd.DataFrame(geas, columns=['Student', 'GEAS'])
+
+esat = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'],
+        'ESAT' : [93, 89, 88]}
+z = pd.DataFrame(esat, columns=['Student', 'ESAT'])
+
+a = pd.merge(w,x, how='left', on='Student')
+b = pd.merge(a,y, how='left', on='Student')
+c = pd.merge(b,z, how='left', on='Student')
+
+longformat = pd.melt(c, id_vars='Student', value_vars=['Math', 'Electronics', 'GEAS', 'ESAT'])
+d = longformat.rename(columns={'variable' : 'Subjects', 'value' : 'Grades'})
+e = d.sort_values('Student')
+f = e.reset_index()
+final = f.drop(columns='index')
+print(final)
